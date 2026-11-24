@@ -250,6 +250,30 @@ function onScroll() {
 addEventListener("scroll", onScroll, { passive: true });
 addEventListener("resize", onScroll);
 reveal();
+// 첫 화면 등장: 끝난 요소는 is-in으로 고정하고, 애니메이션이 돌지 않는 환경이면 바로 보이게 합니다.
+const appears = [...document.querySelectorAll(".appear")];
+appears.forEach((el) => el.addEventListener("animationend", () => el.classList.add("is-in"), { once: true }));
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  appears.forEach((el) => {
+    const running = el.getAnimations ? el.getAnimations().some((a) => a.playState === "running" || a.playState === "finished") : false;
+    if (!running) el.classList.add("is-in");
+  });
+}));
+
+// 휴대폰 메뉴
+const header = document.querySelector(".header");
+const burger = document.querySelector(".burger");
+const setMenu = (open) => {
+  document.body.classList.toggle("menu-open", open);
+  burger.setAttribute("aria-expanded", String(open));
+  burger.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+};
+burger.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+document.querySelectorAll("#site-nav a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+document.querySelector(".menu-backdrop").addEventListener("click", () => setMenu(false));
+addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+matchMedia("(min-width: 901px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
+
 // 패널이 배경 사진 위로 밀려 올라오는 움직임. 스크롤 위치에 그대로 묶여 있어 되돌리면 다시 내려갑니다.
 const panels = [...document.querySelectorAll(".panel")];
 const backdrop = document.querySelector(".backdrop");
@@ -267,7 +291,8 @@ function rise() {
   });
   // 첫 화면을 지나면 배경을 조금 어둡게, 조금 가깝게
   const depth = Math.min(1, scrollY / vh);
-  backdrop.style.setProperty("--shade", (0.35 + 0.4 * depth).toFixed(3));
+  backdrop.style.setProperty("--shade", (0.12 + 0.5 * depth).toFixed(3));
+  header.classList.toggle("scrolled", scrollY > 40);
 }
 addEventListener("scroll", () => { if (!rising) { rising = true; requestAnimationFrame(rise); } }, { passive: true });
 addEventListener("resize", rise);

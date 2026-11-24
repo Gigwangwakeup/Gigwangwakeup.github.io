@@ -5,32 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>이기광 | RTL 설계 엔지니어</title>
   <meta name="description" content="FPGA 로직 설계와 검증 경력 2년 7개월. RISC-V CPU, UVM 검증, AXI SoC, STM32 프로젝트를 모은 이기광의 포트폴리오">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='5' y='5' width='14' height='14' rx='2.5' fill='white'/%3E%3Cpath d='M8 1.5v3M12 1.5v3M16 1.5v3M8 19.5v3M12 19.5v3M16 19.5v3M1.5 8h3M1.5 12h3M1.5 16h3M19.5 8h3M19.5 12h3M19.5 16h3' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900&family=Instrument+Serif:ital@1&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="style.css">
   <script>document.documentElement.classList.add("js");</script>
 </head>
-<body>
+<body style="background:#000;color:#fff">
+  <div class="grain" aria-hidden="true"></div>
   <div class="backdrop" aria-hidden="true"></div>
-  <header class="bar">
-    <a class="wordmark" href="#top">이기광</a>
-    <nav aria-label="주요 메뉴">
-      <a href="#timing">이력</a>
-      <a href="#career">경력</a>
-      <a href="#design">프로젝트</a>
-      <a href="#labs">실습</a>
-      <a href="#contact">연락처</a>
+  <div class="menu-backdrop" aria-hidden="true"></div>
+
+  <header class="header">
+    <a class="logo appear appear--scale" style="--d:0.08s" href="#top" aria-label="이기광 홈">
+      <svg class="logo-mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="currentColor"/><path d="M8 1.5v3M12 1.5v3M16 1.5v3M8 19.5v3M12 19.5v3M16 19.5v3M1.5 8h3M1.5 12h3M1.5 16h3M19.5 8h3M19.5 12h3M19.5 16h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>이기광<span class="logo-suffix"> / RTL</span></span>
+    </a>
+    <nav id="site-nav" aria-label="주요 메뉴">
+      <a class="pill appear appear--scale" style="--d:0.16s" href="#timing">이력</a>
+      <a class="pill appear appear--soft" style="--d:0.28s" href="#career">경력</a>
+      <a class="pill appear appear--scale" style="--d:0.40s" href="#design">프로젝트</a>
+      <a class="pill appear appear--soft" style="--d:0.52s" href="#labs">실습</a>
     </nav>
+    <div class="header-end">
+      <a class="btn btn-solid header-cta appear appear--scale" style="--d:0.34s" href="#contact">연락하기</a>
+      <button class="burger appear appear--scale" style="--d:0.34s" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+    </div>
   </header>
 
   <main id="top">
     <section class="front" aria-labelledby="title">
-      <div class="front-copy" data-reveal>
-        <h1 id="title">이기광<br>RTL 설계 엔지니어</h1>
-        <p class="lede">전력설비 진단 장비의 FPGA 로직을 2년 7개월 동안 설계하고 검증했습니다. 지금은 RISC-V CPU, UVM 검증, AXI SoC를 다루며 차량용 반도체와 NPU 쪽 RTL 프론트엔드 설계를 준비합니다.</p>
-        <div class="actions">
-          <a class="button" id="mail-button" href="mailto:lmop624@naver.com">이메일 보내기</a>
-          <a class="text-link" href="#design">프로젝트 보기</a>
+      <div class="hero-copy">
+        <p class="badge appear appear--pop" style="--d:0.22s">
+          <svg class="badge-edge" viewBox="0 0 28 14" aria-hidden="true"><path d="M1 12h6V2h7v10h7V2h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          RTL 프론트엔드 설계와 FPGA 검증
+        </p>
+        <h1 id="title">
+          <span class="headline-line"><span class="appear appear--mask" style="--d:0.42s">현장에서 2년 7개월, FPGA를 다룬</span></span>
+          <span class="headline-line"><span class="appear appear--mask" style="--d:0.62s"><em>RTL</em> 설계 엔지니어 이기광</span></span>
+        </h1>
+        <p class="lede appear appear--soft" style="--d:0.82s">전력설비 진단 장비의 FPGA 로직을 설계하고 검증했습니다. 지금은 RISC-V CPU, UVM 검증, AXI SoC를 다루며 차량용 반도체와 NPU 쪽 RTL 프론트엔드 설계를 준비합니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid hero-btn appear appear--btn" style="--d:0.96s" id="mail-button" href="mailto:lmop624@naver.com">이메일 보내기</a>
+          <a class="btn btn-ghost hero-btn appear appear--side" style="--d:1.10s" href="#design">프로젝트 보기</a>
         </div>
+      </div>
+      <div class="hero-stats">
+        <p class="stat appear appear--stat" style="--d:1.12s">
+          <svg class="stat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 15.5h3v-7h5v7h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span><b>2년 7개월</b> FPGA 로직 설계와 검증</span>
+        </p>
+        <p class="stat appear appear--stat" style="--d:1.28s">
+          <svg class="stat-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.4" y="2.4" width="19.2" height="19.2" rx="6.2" fill="currentColor"/><path d="M8 12.5l2.6 2.6L16.2 9" fill="none" stroke="#111" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b>WNS +1.676ns</b> 100MHz RV32I CPU (4인 팀)</span>
+        </p>
+        <p class="stat appear appear--stat" style="--d:1.44s">
+          <svg class="stat-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8.6V13l3 2M9.5 2.6h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span><b>20분 → 6분</b> QSPI 멀티부트 원격 업데이트</span>
+        </p>
       </div>
     </section>
 
