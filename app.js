@@ -46,21 +46,27 @@ $("design-works").innerHTML = designWorks.map((w) => {
 }).join("");
 
 // 보드 사진 프로젝트
+const boardPhoto = (b) => {
+  const img = `<img src="${b.image.src}" width="${b.image.width}" height="${b.image.height}" alt="${esc(b.image.alt)}" loading="lazy">`;
+  return b.youtube
+    ? `<div class="photo"><button class="video board-video" type="button" data-video="${youtubeId(b.youtube)}" aria-label="${esc(b.title)} 영상 재생">${img}<span>영상 재생</span></button></div>`
+    : `<div class="photo">${img}</div>`;
+};
 $("board-works").innerHTML = boardWorks.map((b) => `<article class="board" data-reveal>
-    <div class="photo"><img src="${b.image.src}" width="${b.image.width}" height="${b.image.height}" alt="${esc(b.image.alt)}" loading="lazy"></div>
+    ${boardPhoto(b)}
     <h3>${esc(b.title)}</h3>
     <p class="team">${esc(b.team)}</p>
     <p class="text">${esc(b.text)}</p>
     <p class="tags">${esc(b.tags)}</p>
-    ${b.github ? `<a class="code" href="${b.github}" target="_blank" rel="noopener">코드 보기</a>` : ""}
+    <p class="links">${link(b.github, "코드 보기")}${link(b.youtube, "유튜브에서 보기")}</p>
   </article>`).join("");
 
 // 실습 기록 표
 $("lab-groups").innerHTML = labs.map(({ group, items }) => `<div class="lab-group">
     <h3>${esc(group)}</h3>
     <table class="sheet" data-reveal>
-      <thead><tr><th scope="col">이름</th><th scope="col">내용</th><th scope="col">기술</th><th scope="col">코드</th></tr></thead>
-      <tbody>${items.map(([name, text, tech, href]) => `<tr><th scope="row">${esc(name)}</th><td>${esc(text)}</td><td>${esc(tech)}</td><td>${link(href, "보기")}</td></tr>`).join("")}</tbody>
+      <thead><tr><th scope="col">이름</th><th scope="col">내용</th><th scope="col">기술</th><th scope="col">링크</th></tr></thead>
+      <tbody>${items.map(([name, text, tech, href, video]) => `<tr><th scope="row">${esc(name)}</th><td>${esc(text)}</td><td>${esc(tech)}</td><td class="row-links">${link(href, "코드")}${video ? link(video, "영상") : ""}</td></tr>`).join("")}</tbody>
     </table>
   </div>`).join("");
 
@@ -262,7 +268,6 @@ function rise() {
   // 첫 화면을 지나면 배경을 조금 어둡게, 조금 가깝게
   const depth = Math.min(1, scrollY / vh);
   backdrop.style.setProperty("--shade", (0.35 + 0.4 * depth).toFixed(3));
-  if (!reduce) backdrop.style.transform = `scale(${(1 + 0.08 * depth).toFixed(4)})`;
 }
 addEventListener("scroll", () => { if (!rising) { rising = true; requestAnimationFrame(rise); } }, { passive: true });
 addEventListener("resize", rise);

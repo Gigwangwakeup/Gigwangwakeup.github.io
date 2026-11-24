@@ -135,6 +135,7 @@ const boardWorks = [
     tags: "STM32, 2-process FSM, UART 프레임",
     image: { src: "assets/photo-elevator.jpg", width: 629, height: 571, alt: "나무로 만든 엘리베이터 모형과 NUCLEO 보드, LCD가 연결된 브레드보드" },
     github: STM32 + "11.elevator_teamproject",
+    youtube: "https://youtu.be/DzziKFpWq6o",
   },
   {
     title: "FreeRTOS RC카",
@@ -143,6 +144,7 @@ const boardWorks = [
     tags: "STM32, FreeRTOS, HC-SR04, BLE",
     image: { src: "assets/photo-minicar.jpg", width: 426, height: 688, alt: "바퀴 4개, 배터리, NUCLEO 보드, LCD, 초음파 센서가 달린 RC카를 위에서 찍은 사진" },
     github: STM32 + "12.minicar",
+    youtube: "https://youtu.be/dA1R1ajughA",
   },
   {
     title: "스텝모터 아날로그 시계",
@@ -151,6 +153,7 @@ const boardWorks = [
     tags: "STM32, 스텝모터, DS3231 RTC",
     image: { src: "assets/photo-clock.jpg", width: 1080, height: 1134, alt: "스텝모터 3개와 시간이 표시된 LCD, NUCLEO 보드가 연결된 브레드보드" },
     github: STM32 + "06.%20analogClock_motor",
+    youtube: "",
   },
   {
     title: "STM32 스마트워치",
@@ -159,22 +162,23 @@ const boardWorks = [
     tags: "STM32, 이벤트 큐, I2C, EXTI",
     image: { src: "assets/photo-smartwatch.jpg", width: 1095, height: 908, alt: "시간과 온습도가 표시된 LCD, 버튼 3개, NUCLEO 보드가 연결된 브레드보드" },
     github: STM32 + "09.smartWatch",
+    youtube: "https://youtu.be/WrtU32gcCLM",
   },
 ];
 
-// 실습 기록 표
+// 실습 기록 표: [이름, 내용, 기술, 코드 주소, 영상 주소(없으면 생략)]
 const labs = [
   {
     group: "STM32, NUCLEO-F411RE",
     items: [
-      ["LedButton", "버튼 3개로 LED 켜기, 끄기, 깜빡이기", "GPIO", STM32 + "01.%20LedButton"],
-      ["fnd_upcount", "4자리 FND에 0000~9999 카운트", "FND 다이나믹 구동", STM32 + "02.%20fnd_upcount"],
-      ["upcount_btn", "버튼으로 Run, Stop, Clear 하는 카운터", "상태 머신, 디바운싱", STM32 + "03.%20upcount_btn"],
-      ["watch_stopwatch", "FND 시계와 스톱워치 모드 전환", "타이머 인터럽트, 계층 구조", STM32 + "04.%20watch_stopwatch"],
-      ["LCD_RTC_I2C", "RTC 시계와 스톱워치를 LCD와 FND에 표시", "I2C, DS3231, LCD", STM32 + "05.%20LCD_RTC_I2C"],
-      ["dist_temp_humid_sensor", "거리와 온습도를 LCD에 표시", "HC-SR04, DHT11, EXTI", STM32 + "07.dist_temp_humid_sensor"],
-      ["PWM", "버튼으로 주파수와 듀티비를 바꾸고 로직 애널라이저로 확인", "타이머 PWM, ARR, CCR", STM32 + "08.PWM"],
-      ["joystick_count", "조이스틱 기울기에 따라 X, Y 카운트 증감", "ADC, DMA, I2C LCD", STM32 + "10.joystick_count"],
+      ["LedButton", "버튼 3개로 LED 켜기, 끄기, 깜빡이기", "GPIO", STM32 + "01.%20LedButton", "https://youtu.be/PHVp_eQLd3s"],
+      ["fnd_upcount", "4자리 FND에 0000~9999 카운트", "FND 다이나믹 구동", STM32 + "02.%20fnd_upcount", "https://youtu.be/eAawd6hGVtU"],
+      ["upcount_btn", "버튼으로 Run, Stop, Clear 하는 카운터", "상태 머신, 디바운싱", STM32 + "03.%20upcount_btn", "https://youtu.be/mtN9CPtj1FM"],
+      ["watch_stopwatch", "FND 시계와 스톱워치 모드 전환", "타이머 인터럽트, 계층 구조", STM32 + "04.%20watch_stopwatch", "https://youtu.be/rNxt5Wopu6s"],
+      ["LCD_RTC_I2C", "RTC 시계와 스톱워치를 LCD와 FND에 표시", "I2C, DS3231, LCD", STM32 + "05.%20LCD_RTC_I2C", "https://youtu.be/iRg4LzfZHFg"],
+      ["dist_temp_humid_sensor", "거리와 온습도를 LCD에 표시", "HC-SR04, DHT11, EXTI", STM32 + "07.dist_temp_humid_sensor", "https://youtu.be/dXcSvcG28Dc"],
+      ["PWM", "버튼으로 주파수와 듀티비를 바꾸고 로직 애널라이저로 확인", "타이머 PWM, ARR, CCR", STM32 + "08.PWM", "https://youtu.be/4HH5ssXN-Mc"],
+      ["joystick_count", "조이스틱 기울기에 따라 X, Y 카운트 증감", "ADC, DMA, I2C LCD", STM32 + "10.joystick_count", "https://youtu.be/B6OzkROBXMQ"],
     ],
   },
   {
@@ -183,7 +187,7 @@ const labs = [
       ["UART_FIFO_Loopback", "FIFO를 설계, 검증한 뒤 UART와 연결한 루프백", "FIFO, self-checking TB", HDL + "VerilogHDL/UART_FIFO_Loopback"],
       ["Sensor_Smartwatch", "시계, 스톱워치, 초음파, 온습도를 하나로 통합", "센서 프로토콜, UART 명령", HDL + "VerilogHDL/Sensor_Smartwatch_MiniProject"],
       ["RV32I_SingleCycle", "RV32I 싱글사이클 CPU의 datapath와 제어 신호 구현", "SystemVerilog, Harvard 구조", HDL + "SystemVerilogHDL/RV32I_SingleCycle"],
-      ["AXI_GPIO_led_button", "커스텀 GPIO IP 5개로 LED 16개 파도타기", "AXI4-Lite, MicroBlaze, Vitis", AXI + "01.Microblaze_AXI_GPIO_led_button"],
+      ["AXI_GPIO_led_button", "커스텀 GPIO IP 5개로 LED 16개 파도타기", "AXI4-Lite, MicroBlaze, Vitis", AXI + "01.Microblaze_AXI_GPIO_led_button", "https://youtu.be/6P4IyXeRwGo"],
       ["AXI_GPIO_UART", "커스텀 UART IP로 송수신하고 받은 글자를 콘솔에 출력", "AXI4-Lite, UART FSM", AXI + "02.Microblaze_AXI_GPIO_UART"],
     ],
   },
