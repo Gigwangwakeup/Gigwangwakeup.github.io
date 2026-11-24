@@ -3,52 +3,128 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>이기광 포트폴리오</title>
-  <meta name="description" content="STM32 펌웨어, Verilog RTL 설계, RISC-V CPU, UVM 검증 프로젝트 포트폴리오">
+  <title>이기광 | RTL 설계 엔지니어</title>
+  <meta name="description" content="FPGA 로직 설계와 검증 경력 2년 7개월. RISC-V CPU, UVM 검증, AXI SoC, STM32 프로젝트를 모은 이기광의 포트폴리오">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
   <header class="bar">
     <a class="wordmark" href="#top">이기광</a>
     <nav aria-label="주요 메뉴">
-      <a href="#projects">프로젝트</a>
-      <a href="#labs">실습 기록</a>
+      <a href="#timing">이력</a>
+      <a href="#career">경력</a>
+      <a href="#design">프로젝트</a>
+      <a href="#labs">실습</a>
       <a href="#contact">연락처</a>
     </nav>
   </header>
 
   <main id="top">
-    <section class="hero">
-      <h1>LED 점멸에서<br>RISC-V CPU까지</h1>
-      <div class="hero-side">
-        <p>이기광의 포트폴리오입니다. STM32 펌웨어, Verilog RTL 설계, UVM 검증 실습과 팀 프로젝트를 모았습니다. 팀 프로젝트에는 제가 맡은 부분을 따로 적었습니다.</p>
-        <a class="button" href="#projects">프로젝트 보기</a>
+    <section class="front" aria-labelledby="title">
+      <div class="photo-band"><img class="front-photo" src="assets/die-zen2.jpg" width="1800" height="1221" alt="비스듬히 놓인 프로세서 다이를 흑백으로 찍은 사진. 캐시 블록과 코어 배선이 격자처럼 보인다."></div>
+      <div class="front-copy" data-reveal>
+        <h1 id="title">이기광<br>RTL 설계 엔지니어</h1>
+        <p class="lede">전력설비 진단 장비의 FPGA 로직을 2년 7개월 동안 설계하고 검증했습니다. 지금은 RISC-V CPU, UVM 검증, AXI SoC를 다루며 차량용 반도체와 NPU 쪽 RTL 프론트엔드 설계를 준비합니다.</p>
+        <div class="actions">
+          <a class="button" id="mail-button" href="mailto:lmop624@naver.com">이메일 보내기</a>
+          <a class="text-link" href="#design">프로젝트 보기</a>
+        </div>
       </div>
-      <figure class="hero-figure">
-        <img src="assets/cpu-architecture.png" width="1760" height="890" alt="RV32I 멀티사이클 CPU 구조도. 명령어 ROM, 제어부와 데이터패스, APB requester, 메모리 맵으로 이어진다.">
-        <figcaption>4인 팀 프로젝트 RV32I 멀티사이클 CPU 구조도 (CPU 구조와 APB 연결 담당)</figcaption>
+    </section>
+
+    <section class="spec" aria-labelledby="spec-title">
+      <div class="spec-text" data-reveal>
+        <h2 id="spec-title">특징</h2>
+        <ul class="features" id="features"></ul>
+        <h3>관심 분야</h3>
+        <p id="interests"></p>
+      </div>
+      <figure class="spec-figure" data-reveal>
+        <img src="assets/cpu-architecture.png" width="1760" height="890" alt="RV32I 멀티사이클 CPU 블록도. 명령어 ROM, 제어부와 데이터패스, APB requester, 메모리 맵으로 이어진다.">
+        <figcaption>RV32I 멀티사이클 CPU 블록도. 4인 팀 프로젝트에서 CPU 구조와 APB 연결을 맡았습니다.</figcaption>
       </figure>
     </section>
 
-    <section id="projects" aria-labelledby="projects-title">
-      <h2 class="section-title" id="projects-title">프로젝트</h2>
-      <div id="works"></div>
-      <noscript><p class="section-title">프로젝트 목록을 보려면 JavaScript를 켜 주세요.</p></noscript>
+    <section class="timing" id="timing" aria-labelledby="timing-title">
+      <div class="timing-head" data-reveal>
+        <h2 id="timing-title">타이밍도로 본 이력</h2>
+        <p>회사 경력, 교육과정, 실습 주제를 한 시간축에 놓았습니다. 한 칸이 한 달입니다.</p>
+      </div>
+      <div class="wave" data-reveal>
+        <div class="wave-plot" id="wave-plot" aria-hidden="true"></div>
+        <label class="wave-cursor">
+          <span>시점</span>
+          <input type="range" id="wave-range" min="0" max="39" value="36">
+        </label>
+        <dl class="wave-readout" id="wave-readout" aria-live="polite">
+          <div><dt>시점</dt><dd>2026년 11월</dd></div>
+          <div><dt>경력</dt><dd>2023.11 ~ 2026.06 유호전기공업 연구소, FPGA 로직 설계와 검증</dd></div>
+          <div><dt>교육</dt><dd>2026.06 ~ 2027.02 AI 시스템반도체 설계 교육과정</dd></div>
+          <div><dt>HDL</dt><dd>2026.11 ~ 2026.11 MicroBlaze, AXI</dd></div>
+          <div><dt>임베디드</dt><dd>2026.10 ~ 2026.11 STM32, FreeRTOS</dd></div>
+        </dl>
+      </div>
     </section>
 
-    <section id="labs" class="labs" aria-labelledby="labs-title">
-      <h2 id="labs-title">실습 기록</h2>
-      <p class="labs-intro">프로젝트로 이어진 단계별 실습입니다. 각 저장소 폴더의 README에 동작과 구현 내용을 정리했습니다.</p>
+    <section class="career" id="career" aria-labelledby="career-title">
+      <div class="career-head" data-reveal>
+        <h2 id="career-title">경력</h2>
+        <p class="career-company" id="career-company"></p>
+      </div>
+      <table class="sheet career-table" data-reveal>
+        <caption class="visually-hidden">유호전기공업 연구소에서 한 일</caption>
+        <thead><tr><th scope="col">한 일</th><th scope="col">내용</th></tr></thead>
+        <tbody id="career-rows"></tbody>
+      </table>
+    </section>
+
+    <section class="design" id="design" aria-labelledby="design-title">
+      <h2 id="design-title" data-reveal>설계와 검증 프로젝트</h2>
+      <div id="design-works"></div>
+    </section>
+
+    <section class="boards" id="boards" aria-labelledby="boards-title">
+      <div class="boards-head" data-reveal>
+        <h2 id="boards-title">보드 위에서 돌린 프로젝트</h2>
+        <p>STM32 NUCLEO-F411RE로 만든 임베디드 프로젝트입니다. 사진은 모두 직접 찍은 실물입니다.</p>
+      </div>
+      <div class="board-grid" id="board-works"></div>
+    </section>
+
+    <section class="labs" id="labs" aria-labelledby="labs-title">
+      <div class="labs-head" data-reveal>
+        <h2 id="labs-title">실습 기록</h2>
+        <p>프로젝트로 이어진 단계별 실습입니다. 각 저장소 폴더의 README에 동작과 구현 내용을 정리했습니다.</p>
+      </div>
       <div id="lab-groups"></div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="contact-text" data-reveal>
+        <h2 id="contact-title">연락처</h2>
+        <p class="contact-lede">면접, 과제, 프로젝트 이야기 모두 메일로 받습니다.</p>
+        <a class="contact-mail" id="contact-mail" href="mailto:lmop624@naver.com">lmop624@naver.com</a>
+        <table class="sheet pins">
+          <caption class="visually-hidden">연락처 핀 설명</caption>
+          <thead><tr><th scope="col">핀</th><th scope="col">주소</th></tr></thead>
+          <tbody id="pin-rows"></tbody>
+        </table>
+      </div>
+      <figure class="contact-figure" data-reveal>
+        <img src="assets/die-hd61700.jpg" width="1100" height="1100" alt="Hitachi HD61700 마이크로프로세서 다이 사진. 가장자리를 따라 본딩 패드가 늘어서 있다." loading="lazy">
+        <figcaption>칩 가장자리의 본딩 패드. 칩이 바깥과 이어지는 곳입니다.</figcaption>
+      </figure>
     </section>
   </main>
 
-  <footer id="contact">
-    <h2>연락처</h2>
-    <ul class="contact-links" id="contact-links"></ul>
-    <p class="closing-name" aria-hidden="true">이기광</p>
-    <p class="site-note">이 사이트의 코드는 AI(Claude)로 만들었습니다.</p>
+  <footer class="close">
+    <p class="close-name">이기광</p>
+    <p class="close-role">RTL 설계 엔지니어</p>
+    <p class="close-meta" id="close-meta">최종 업데이트 2026-11-24</p>
+    <p class="close-meta">이 사이트의 코드는 AI(Claude)로 만들었습니다. 프로젝트 내용과 사진은 본인의 실습과 팀 프로젝트입니다.</p>
+    <p class="close-meta credits">다이 사진: Fritzchens Fritz, “Zen2 Matisse Ryzen 7nm Core Die shot”, CC0; Piotr433, “Hitachi HD61700 microprocessor top metal die shot”, CC0. 출처 Wikimedia Commons. 흑백으로 변환해 사용.</p>
   </footer>
 
   <script src="projects.js"></script>

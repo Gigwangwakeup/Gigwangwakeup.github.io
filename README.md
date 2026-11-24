@@ -8,9 +8,21 @@
 
 `projects.js`만 고치면 됩니다.
 
-- 유튜브 영상: 해당 프로젝트의 `youtube`에 영상 주소를 넣으면 페이지 안에서 재생됩니다.
-- 링크드인 글: `linkedin`에 게시글 주소를 넣으면 링크가 나타납니다.
-- 연락처: 맨 위 `profile`의 `email`, `github`, `linkedin`, `youtube`에 주소를 넣으면 맨 아래 연락처에 이름과 주소가 함께 나옵니다.
-- 새 프로젝트: `works`(크게 표시)나 `labs`(표로 표시)에 항목을 하나 추가합니다.
+- `profile`: 이메일, GitHub, LinkedIn, YouTube 주소와 최종 업데이트 날짜(`updated`). 연락처 표와 맨 아래 날짜에 쓰입니다.
+- `features`, `interests`: 첫 화면 아래 특징 목록과 관심 분야.
+- `career`: 경력 표.
+- `timeline`: 타이밍도. 줄마다 `from`, `to`(YYYY-MM)와 이름을 넣고, `now`는 커서가 처음 멈추는 달입니다.
+- `designWorks`: 설계와 검증 프로젝트(그림과 함께 크게 표시). `youtube`에 영상 주소를 넣으면 그림 대신 영상 재생 버튼이 나옵니다.
+- `boardWorks`: 사진으로 보여 주는 임베디드 프로젝트.
+- `labs`: 실습 기록 표.
 
-주소를 비워 두면(`""`) 그 링크는 화면에 나오지 않습니다.
+주소를 비워 두면(`""`) 그 링크는 화면에 나오지 않습니다. 새 그림은 `assets` 폴더에 넣습니다.
+
+## 그림 출처
+
+첫 화면과 연락처의 칩 다이 사진은 Wikimedia Commons의 CC0 사진을 흑백으로 바꿔 썼습니다.
+
+- Fritzchens Fritz, "Zen2 Matisse Ryzen 7nm Core Die shot", CC0
+- Piotr433, "Hitachi HD61700 microprocessor top metal die shot", CC0
+
+나머지 사진과 그림은 본인 프로젝트에서 직접 찍거나 만든 것입니다.
