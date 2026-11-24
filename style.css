@@ -16,13 +16,20 @@
   --body: 18px;
   --small: 15px;
   --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --panel-pad: clamp(40px, 5.5vw, 96px) clamp(20px, 3.4vw, 56px);
+  --panel-gap: clamp(72px, 12vh, 140px);
+  --wave-bg: #0e1012;
+  --wave-line: #3ddc84;
+  --wave-dim: #3a4046;
+  --wave-text: #d6dde3;
+  --wave-cursor: #ffcc4d;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--night);
   color: var(--ink);
   font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
   font-size: var(--body);
@@ -56,35 +63,51 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
 .bar nav a { text-decoration: none; color: var(--night-soft); transition: color 0.2s; }
 .bar nav a:hover { color: var(--night-ink); }
 
-/* 첫 화면: 실리콘 사진 */
+/* 배경: 화면에 고정된 칩 사진. 내용이 그 위로 올라옵니다. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #000 url("assets/bg-chip-stack.webp") 50% 40% / cover no-repeat;
+  transform-origin: 50% 40%;
+}
+.backdrop::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, var(--shade, 0.35)); }
+
+/* 첫 화면 */
 .front {
   position: relative;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto auto;
   column-gap: 24px;
-  min-height: min(100svh, 1000px);
-  padding: 64px var(--margin) clamp(48px, 6vw, 88px);
-  background: var(--night);
+  align-content: end;
+  min-height: 100svh;
+  padding: 64px var(--margin) clamp(48px, 7vw, 104px);
   color: var(--night-ink);
-  overflow: hidden;
 }
-.photo-band {
-  grid-column: 1 / -1;
-  margin: 0 calc(-1 * var(--margin));
-  height: clamp(300px, 58svh, 620px);
-  overflow: hidden;
+/* 글자 밑의 사진만 어둡게 받치는 막 */
+.front::before {
+  content: "";
+  position: absolute;
+  inset: 40% 0 0 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.78) 55%);
+  pointer-events: none;
 }
-.front-photo { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transform-origin: 70% 50%; }
-@media (min-width: 1025px) { .front-photo { object-fit: contain; object-position: 92% 50%; } }
 .front-copy {
+  position: relative;
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: 24px;
   align-items: end;
-  margin-top: clamp(32px, 4vw, 56px);
 }
+
+/* 내용 패널: 배경 사진 위로 올라오는 종이 */
+.panel {
+  margin: 0 var(--margin) var(--panel-gap);
+  background: var(--paper);
+  will-change: transform;
+}
+.panel:first-of-type { margin-top: clamp(24px, 6vh, 64px); }
 .front-copy h1 { grid-column: 1 / span 7; }
 .front-copy .lede { grid-column: 8 / span 5; margin-top: 0; }
 .front-copy .actions { grid-column: 8 / span 5; }
@@ -117,7 +140,7 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
   grid-template-columns: repeat(12, 1fr);
   column-gap: 24px;
   row-gap: 48px;
-  padding: var(--section) var(--margin) 0;
+  padding: var(--panel-pad);
   align-items: start;
 }
 .spec-text { grid-column: 1 / span 4; }
@@ -130,30 +153,49 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
 .spec-text h3 + p { margin-top: 8px; font-size: 20px; font-weight: 600; }
 
 /* 타이밍도 */
-.timing { padding: var(--section) var(--margin) 0; }
+.timing { padding: var(--panel-pad); }
 .timing-head { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: end; }
 .timing-head h2 { grid-column: 1 / span 6; }
 .timing-head p { grid-column: 8 / span 5; color: var(--ink); }
-.wave { margin-top: 48px; background: #fff; padding: clamp(16px, 2.4vw, 36px); }
-.wave-plot svg { display: block; width: 100%; height: auto; overflow: visible; }
-.wave-plot .axis { font-size: 13px; fill: var(--ink-soft); }
-.wave-plot .row-name { font-size: 15px; font-weight: 700; fill: var(--ink); }
-.wave-plot .seg { fill: var(--paper-2); stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
-.wave-plot .seg.on { fill: #f6d9d3; }
-.wave-plot .seg-label { font-size: 14px; fill: var(--ink); }
-.wave-plot .clk { fill: none; stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
-.wave-plot .cursor { stroke: var(--accent); stroke-width: 3; vector-effect: non-scaling-stroke; }
-.wave-plot .cursor-tag { fill: var(--accent); }
-.wave-plot .cursor-text { fill: #fff; font-size: 13px; font-weight: 700; }
-.wave-cursor { display: flex; align-items: center; gap: 16px; margin-top: 20px; font-weight: 700; }
-.wave-cursor input { flex: 1; accent-color: var(--accent); height: 32px; cursor: pointer; }
-.wave-readout { display: grid; grid-template-columns: 0.7fr 1.4fr 1.2fr 1.2fr 1fr; gap: 12px; margin: 24px 0 0; }
-.wave-readout div { background: var(--paper); padding: 16px 18px; }
-.wave-readout dt { font-size: var(--small); color: var(--ink-soft); }
-.wave-readout dd { margin: 4px 0 0; font-weight: 600; }
+/* 파형 뷰어 (EDA 툴 화면을 본뜬 실제 인터페이스 조각) */
+.wave {
+  margin-top: 48px;
+  background: var(--wave-bg);
+  color: var(--wave-text);
+  padding: 0 0 18px;
+  font-family: "JetBrains Mono", Consolas, "D2Coding", "Pretendard Variable", monospace;
+}
+.wave-plot svg { display: block; width: 100%; height: auto; }
+.wave-plot text { font-family: inherit; }
+.wave-plot .ruler { fill: #16191c; }
+.wave-plot .pane { fill: #121417; }
+.wave-plot .pane-edge { stroke: #23272c; stroke-width: 1; }
+.wave-plot .tick { stroke: #4a5157; stroke-width: 1; }
+.wave-plot .tick.major { stroke: #8a939b; }
+.wave-plot .grid { stroke: #1b1f23; stroke-width: 1; }
+.wave-plot .row-sep { stroke: #171a1e; stroke-width: 1; }
+.wave-plot .axis { font-size: 12px; fill: #8a939b; }
+.wave-plot .head { font-size: 11px; fill: #6b737a; letter-spacing: 0.02em; }
+.wave-plot .sig { font-size: 13px; fill: var(--wave-text); }
+.wave-plot .val { font-size: 13px; fill: var(--wave-cursor); }
+.wave-plot .clk { fill: none; stroke: var(--wave-line); stroke-width: 1.5; }
+.wave-plot .idle { stroke: var(--wave-dim); stroke-width: 1.5; }
+.wave-plot .seg { fill: rgba(61, 220, 132, 0.06); stroke: var(--wave-line); stroke-width: 1.5; }
+.wave-plot .seg.on { fill: rgba(61, 220, 132, 0.2); }
+.wave-plot .seg-label { font-size: 12px; fill: #bfeccf; }
+.wave-plot .cursor { stroke: var(--wave-cursor); stroke-width: 1.5; }
+.wave-plot .cursor-tag { fill: var(--wave-cursor); }
+.wave-plot .cursor-text { fill: #111; font-size: 12px; font-weight: 700; }
+.wave-cursor { display: flex; align-items: center; gap: 14px; margin: 14px 20px 0; font-size: 13px; color: #8a939b; }
+.wave-cursor input { flex: 1; accent-color: var(--wave-cursor); height: 28px; cursor: pointer; }
+.wave-cursor output { color: var(--wave-cursor); min-width: 5.5em; text-align: right; }
+.wave-readout { display: none; margin: 14px 20px 0; }
+.wave-readout div { display: grid; grid-template-columns: 6.5em 1fr; gap: 8px; padding: 6px 0; }
+.wave-readout dt { font-size: 13px; color: #8a939b; }
+.wave-readout dd { margin: 0; font-size: 13px; color: var(--wave-cursor); }
 
 /* 경력 */
-.career { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 32px; padding: var(--section) var(--margin) 0; align-items: start; }
+.career { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; row-gap: 32px; padding: var(--panel-pad); align-items: start; }
 .career-head { grid-column: 1 / span 4; position: sticky; top: 96px; }
 .career-company { margin-top: 20px; font-size: 20px; line-height: 1.5; }
 .career-company strong { display: block; font-size: 24px; }
@@ -167,7 +209,7 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
 .sheet tr:last-child th, .sheet tr:last-child td { border-bottom: 0; }
 
 /* 설계와 검증 */
-.design { padding: var(--section) var(--margin) 0; }
+.design { padding: var(--panel-pad); }
 .work {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -201,7 +243,7 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
 .video-frame { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 
 /* 보드 사진 */
-.boards { padding: var(--section) var(--margin) 0; }
+.boards { padding: var(--panel-pad); }
 .boards-head { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: end; }
 .boards-head h2 { grid-column: 1 / span 6; }
 .boards-head p { grid-column: 8 / span 5; }
@@ -223,7 +265,7 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
 .board a.code:hover { color: var(--accent); }
 
 /* 실습 기록 */
-.labs { padding: var(--section) var(--margin) 0; }
+.labs { padding: var(--panel-pad); }
 .labs-head { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; align-items: end; }
 .labs-head h2 { grid-column: 1 / span 6; }
 .labs-head p { grid-column: 8 / span 5; }
@@ -241,7 +283,7 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
   grid-template-columns: repeat(12, 1fr);
   column-gap: 24px;
   row-gap: 48px;
-  padding: var(--section) var(--margin);
+  padding: var(--panel-pad);
   align-items: center;
 }
 .contact-text { grid-column: 1 / span 6; }
@@ -249,32 +291,32 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
 .contact-mail { display: inline-block; margin-top: 28px; font-size: clamp(26px, 3vw, 40px); font-weight: 800; letter-spacing: -0.02em; text-decoration-color: var(--accent); }
 .contact-mail:hover { color: var(--accent); }
 .pins { margin-top: 36px; }
-.pins tbody th { width: 28%; }
-.pins a { font-weight: 600; }
+.pins { table-layout: fixed; }
+.pins thead th:first-child, .pins tbody th { width: 30%; }
+.pins a { font-weight: 600; word-break: break-all; }
 .pins a:hover { color: var(--accent); }
 .contact-figure { grid-column: 8 / span 5; }
 
 /* 맺음 */
-.close { padding: clamp(72px, 9vw, 128px) var(--margin) 40px; background: var(--night); color: var(--night-ink); }
+.close { padding: clamp(56px, 8vw, 112px) var(--margin) 40px; background: rgba(0, 0, 0, 0.82); color: var(--night-ink); }
 .close-name { font-size: clamp(40px, 5vw, 72px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
 .close-role { margin-top: 10px; font-size: 20px; color: var(--night-soft); }
 .close-meta { margin-top: 12px; font-size: var(--small); color: var(--night-soft); max-width: 70ch; }
 .close-role + .close-meta { margin-top: 48px; }
 
 /* 등장 움직임: 스크립트가 있을 때만 숨겼다가 보입니다 */
-.js [data-reveal] > *, .js [data-reveal].solo { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+/* 패널 자체는 스크롤 위치에 맞춰 아래에서 밀려 올라오고(app.js),
+   그 안의 내용은 차례로 한 번 더 올라옵니다. */
+.js [data-reveal] > *, .js [data-reveal].solo { opacity: 0; transform: translateY(56px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
 .js [data-reveal].in > *, .js [data-reveal].in.solo { opacity: 1; transform: none; }
-.js [data-reveal].in > *:nth-child(2) { transition-delay: 0.08s; }
-.js [data-reveal].in > *:nth-child(3) { transition-delay: 0.16s; }
-.js [data-reveal].in > *:nth-child(4) { transition-delay: 0.24s; }
-.js [data-reveal].in > *:nth-child(n + 5) { transition-delay: 0.3s; }
-.js .front-photo { animation: drift 20s var(--ease) infinite alternate; }
-@keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(-1.5%, -2%) scale(1.04); } }
+.js [data-reveal].in > *:nth-child(2) { transition-delay: 0.09s; }
+.js [data-reveal].in > *:nth-child(3) { transition-delay: 0.18s; }
+.js [data-reveal].in > *:nth-child(4) { transition-delay: 0.27s; }
+.js [data-reveal].in > *:nth-child(n + 5) { transition-delay: 0.34s; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .js [data-reveal] > *, .js [data-reveal].solo { opacity: 1; transform: none; transition: none; }
-  .js .front-photo { animation: none; }
+  .js [data-reveal] > *, .js [data-reveal].solo { transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .work-media img, .board img { transition: none; }
 }
 
@@ -295,14 +337,12 @@ a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 2px; 
   :root { --body: 17px; }
   .bar { padding: 14px var(--margin); }
   .bar nav { gap: 14px; font-size: 15px; }
-  .bar nav a:nth-child(2), .bar nav a:nth-child(4) { display: none; }
-  .front { min-height: auto; padding-top: 56px; }
-  .photo-band { height: 280px; }
+  .bar nav a:nth-child(-n + 2), .bar nav a:nth-child(4) { display: none; }
+  .front { padding-top: 56px; }
   .lede { font-size: 18px; margin-top: 24px; }
-  .wave-plot .seg-label, .wave-plot .row-name { display: none; }
-  .wave-readout { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .wave-readout div:nth-child(3) { grid-column: 1 / -1; }
-  .wave-readout div { padding: 12px 14px; }
+  .panel { margin-left: 10px; margin-right: 10px; }
+  .wave-plot .seg-label { display: none; }
+  .wave-readout { display: block; }
   .stats { grid-template-columns: 1fr; }
   .board, .board:nth-child(n) { grid-column: 1 / -1; }
   .board:nth-child(n) img { aspect-ratio: 4 / 3; }

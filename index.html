@@ -10,6 +10,7 @@
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
+  <div class="backdrop" aria-hidden="true"></div>
   <header class="bar">
     <a class="wordmark" href="#top">이기광</a>
     <nav aria-label="주요 메뉴">
@@ -23,7 +24,6 @@
 
   <main id="top">
     <section class="front" aria-labelledby="title">
-      <div class="photo-band"><img class="front-photo" src="assets/die-zen2.jpg" width="1800" height="1221" alt="비스듬히 놓인 프로세서 다이를 흑백으로 찍은 사진. 캐시 블록과 코어 배선이 격자처럼 보인다."></div>
       <div class="front-copy" data-reveal>
         <h1 id="title">이기광<br>RTL 설계 엔지니어</h1>
         <p class="lede">전력설비 진단 장비의 FPGA 로직을 2년 7개월 동안 설계하고 검증했습니다. 지금은 RISC-V CPU, UVM 검증, AXI SoC를 다루며 차량용 반도체와 NPU 쪽 RTL 프론트엔드 설계를 준비합니다.</p>
@@ -34,7 +34,7 @@
       </div>
     </section>
 
-    <section class="spec" aria-labelledby="spec-title">
+    <section class="panel spec" aria-labelledby="spec-title">
       <div class="spec-text" data-reveal>
         <h2 id="spec-title">특징</h2>
         <ul class="features" id="features"></ul>
@@ -47,16 +47,17 @@
       </figure>
     </section>
 
-    <section class="timing" id="timing" aria-labelledby="timing-title">
+    <section class="panel timing" id="timing" aria-labelledby="timing-title">
       <div class="timing-head" data-reveal>
         <h2 id="timing-title">타이밍도로 본 이력</h2>
-        <p>회사 경력, 교육과정, 실습 주제를 한 시간축에 놓았습니다. 한 칸이 한 달입니다.</p>
+        <p>회사 경력, 교육과정, 실습 주제를 파형 뷰어처럼 한 시간축에 놓았습니다. 한 주기가 한 달이고, 노란 커서가 지금입니다.</p>
       </div>
-      <div class="wave" data-reveal>
+      <div class="wave" data-reveal data-ui>
         <div class="wave-plot" id="wave-plot" aria-hidden="true"></div>
         <label class="wave-cursor">
-          <span>시점</span>
+          <span>커서</span>
           <input type="range" id="wave-range" min="0" max="39" value="36">
+          <output id="wave-time">2026.11</output>
         </label>
         <dl class="wave-readout" id="wave-readout" aria-live="polite">
           <div><dt>시점</dt><dd>2026년 11월</dd></div>
@@ -68,7 +69,7 @@
       </div>
     </section>
 
-    <section class="career" id="career" aria-labelledby="career-title">
+    <section class="panel career" id="career" aria-labelledby="career-title">
       <div class="career-head" data-reveal>
         <h2 id="career-title">경력</h2>
         <p class="career-company" id="career-company"></p>
@@ -80,12 +81,12 @@
       </table>
     </section>
 
-    <section class="design" id="design" aria-labelledby="design-title">
+    <section class="panel design" id="design" aria-labelledby="design-title">
       <h2 id="design-title" data-reveal>설계와 검증 프로젝트</h2>
       <div id="design-works"></div>
     </section>
 
-    <section class="boards" id="boards" aria-labelledby="boards-title">
+    <section class="panel boards" id="boards" aria-labelledby="boards-title">
       <div class="boards-head" data-reveal>
         <h2 id="boards-title">보드 위에서 돌린 프로젝트</h2>
         <p>STM32 NUCLEO-F411RE로 만든 임베디드 프로젝트입니다. 사진은 모두 직접 찍은 실물입니다.</p>
@@ -93,7 +94,7 @@
       <div class="board-grid" id="board-works"></div>
     </section>
 
-    <section class="labs" id="labs" aria-labelledby="labs-title">
+    <section class="panel labs" id="labs" aria-labelledby="labs-title">
       <div class="labs-head" data-reveal>
         <h2 id="labs-title">실습 기록</h2>
         <p>프로젝트로 이어진 단계별 실습입니다. 각 저장소 폴더의 README에 동작과 구현 내용을 정리했습니다.</p>
@@ -101,7 +102,7 @@
       <div id="lab-groups"></div>
     </section>
 
-    <section class="contact" id="contact" aria-labelledby="contact-title">
+    <section class="panel contact" id="contact" aria-labelledby="contact-title">
       <div class="contact-text" data-reveal>
         <h2 id="contact-title">연락처</h2>
         <p class="contact-lede">면접, 과제, 프로젝트 이야기 모두 메일로 받습니다.</p>
@@ -124,7 +125,7 @@
     <p class="close-role">RTL 설계 엔지니어</p>
     <p class="close-meta" id="close-meta">최종 업데이트 2026-11-24</p>
     <p class="close-meta">이 사이트의 코드는 AI(Claude)로 만들었습니다. 프로젝트 내용과 사진은 본인의 실습과 팀 프로젝트입니다.</p>
-    <p class="close-meta credits">다이 사진: Fritzchens Fritz, “Zen2 Matisse Ryzen 7nm Core Die shot”, CC0; Piotr433, “Hitachi HD61700 microprocessor top metal die shot”, CC0. 출처 Wikimedia Commons. 흑백으로 변환해 사용.</p>
+    <p class="close-meta credits">연락처의 다이 사진: Piotr433, “Hitachi HD61700 microprocessor top metal die shot”, CC0, Wikimedia Commons. 흑백으로 변환해 사용.</p>
   </footer>
 
   <script src="projects.js"></script>

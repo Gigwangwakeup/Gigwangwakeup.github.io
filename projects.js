@@ -44,17 +44,19 @@ const timeline = {
   end: "2027-02",
   now: "2026-11",
   rows: [
-    { name: "경력", segs: [{ from: "2023-11", to: "2026-06", label: "유호전기공업 연구소, FPGA 로직 설계와 검증" }] },
-    { name: "교육", segs: [{ from: "2026-06", to: "2027-02", label: "AI 시스템반도체 설계 교육과정" }] },
+    // signal은 파형 뷰어의 신호 이름, short는 값 열과 파형 안에 찍히는 짧은 값입니다.
+    { name: "경력", signal: "career", segs: [{ from: "2023-11", to: "2026-06", label: "유호전기공업 연구소, FPGA 로직 설계와 검증", short: "FPGA 로직 설계·검증" }] },
+    { name: "교육", signal: "education", segs: [{ from: "2026-06", to: "2027-02", label: "AI 시스템반도체 설계 교육과정", short: "AI 시스템반도체 과정" }] },
     {
-      name: "HDL",
+      name: "HDL 실습",
+      signal: "hdl_lab",
       segs: [
-        { from: "2026-07", to: "2026-08", label: "Verilog RTL" },
-        { from: "2026-09", to: "2026-10", label: "SystemVerilog, UVM, RISC-V CPU" },
-        { from: "2026-11", to: "2026-11", label: "MicroBlaze, AXI" },
+        { from: "2026-07", to: "2026-08", label: "Verilog RTL", short: "Verilog" },
+        { from: "2026-09", to: "2026-10", label: "SystemVerilog, UVM, RISC-V CPU", short: "SV·UVM·RV32I" },
+        { from: "2026-11", to: "2026-11", label: "MicroBlaze, AXI", short: "AXI" },
       ],
     },
-    { name: "임베디드", segs: [{ from: "2026-10", to: "2026-11", label: "STM32, FreeRTOS" }] },
+    { name: "임베디드 실습", signal: "embedded_lab", segs: [{ from: "2026-10", to: "2026-11", label: "STM32, FreeRTOS", short: "STM32" }] },
   ],
 };
 

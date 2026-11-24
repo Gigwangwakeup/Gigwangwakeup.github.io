@@ -92,68 +92,109 @@ const toIndex = (ym) => { const [y, m] = ym.split("-").map(Number); return y * 1
 const fromIndex = (i) => ({ y: Math.floor(i / 12), m: (i % 12) + 1 });
 const T0 = toIndex(timeline.start);
 const N = toIndex(timeline.end) - T0 + 1;
-const W = 1000, L = 96, ROW = 48, TOP = 34;
-const colW = (W - L) / N;
-const x = (i) => L + i * colW;
-const rowY = (r) => TOP + r * ROW;
-const H = rowY(timeline.rows.length + 1) + 24;
+// 파형 뷰어 배치. 넓은 화면은 신호 이름, 값 열, 파형 창으로 나누고, 휴대폰은 파형 창만 그립니다.
 const range = $("wave-range");
 range.max = N - 1;
 const nowIdx = toIndex(timeline.now) - T0;
+const RULER = 30, ROW = 36;
+let G = {};
+const fmtYM = (i) => { const { y, m } = fromIndex(T0 + i); return `${y}.${String(m).padStart(2, "0")}`; };
+// 글자 폭 어림: 한글은 글자 크기만큼, 나머지는 0.6배
+const textW = (s, size) => [...s].reduce((w, c) => w + (/[ㄱ-힝]/.test(c) ? size : size * 0.6), 0);
 
 function segAt(row, i) {
   return row.segs.filter((s) => i >= toIndex(s.from) - T0 && i <= toIndex(s.to) - T0);
 }
 
+function layout() {
+  const compact = innerWidth < 700;
+  const NAMEW = compact ? 0 : 130, VALW = compact ? 0 : 190;
+  const W = compact ? 640 : 1240, L = NAMEW + VALW;
+  const colW = (W - L - 8) / N;
+  G = { compact, NAMEW, VALW, W, L, colW, x: (i) => L + 4 + i * colW, rowC: (r) => RULER + r * ROW + ROW / 2, H: RULER + (timeline.rows.length + 1) * ROW + 6 };
+}
+
 function drawWave() {
-  let svg = `<svg viewBox="0 0 ${W} ${H}" role="presentation">`;
-  // 해마다 1월에 눈금 글자
-  for (let i = 0; i < N; i++) {
-    const { y, m } = fromIndex(T0 + i);
-    if ((m === 1 && i > 3) || i === 0) svg += `<text class="axis" x="${x(i) + 2}" y="${H - 4}">${y}.${String(m).padStart(2, "0")}</text>`;
+  layout();
+  const { NAMEW, W, L, colW, x, rowC, H, compact } = G;
+  const rows = timeline.rows.length + 1;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="presentation">`;
+  // 이름과 값 창, 시간 눈금자
+  if (!compact) {
+    s += `<rect class="pane" x="0" y="0" width="${L}" height="${H}"/>`;
+    s += `<text class="head" x="12" y="19">Signal</text><text class="head" x="${NAMEW + 12}" y="19">Value @ cursor</text>`;
+    s += `<line class="pane-edge" x1="${NAMEW}" y1="0" x2="${NAMEW}" y2="${H}"/><line class="pane-edge" x1="${L}" y1="0" x2="${L}" y2="${H}"/>`;
   }
+  s += `<rect class="ruler" x="${L}" y="0" width="${W - L}" height="${RULER}"/>`;
+  for (let i = 0; i <= N; i++) {
+    const { m } = fromIndex(T0 + i);
+    const major = m === 1;
+    s += `<line class="tick${major ? " major" : ""}" x1="${x(i)}" y1="${RULER - (major ? 12 : 5)}" x2="${x(i)}" y2="${RULER}"/>`;
+    if (major) {
+      s += `<line class="grid" x1="${x(i)}" y1="${RULER}" x2="${x(i)}" y2="${H}"/>`;
+      s += `<text class="axis" x="${x(i) + 4}" y="14">${fromIndex(T0 + i).y}</text>`;
+    }
+  }
+  // 시작 달 글자는 첫 해 눈금과 겹치지 않을 만큼 떨어져 있을 때만
+  if (fromIndex(T0).m <= 9) s += `<text class="axis" x="${x(0) + 4}" y="14">${fmtYM(0)}</text>`;
+  for (let r = 1; r < rows; r++) s += `<line class="row-sep" x1="0" y1="${RULER + r * ROW}" x2="${W}" y2="${RULER + r * ROW}"/>`;
+
   // clk: 한 달에 한 주기
-  const cy = rowY(0);
-  let d = `M${x(0)} ${cy + 14}`;
-  for (let i = 0; i < N; i++) {
-    d += ` L${x(i)} ${cy - 10} L${x(i) + colW / 2} ${cy - 10} L${x(i) + colW / 2} ${cy + 14} L${x(i + 1)} ${cy + 14}`;
-  }
-  svg += `<text class="row-name" x="0" y="${cy + 6}">clk</text><path class="clk" d="${d}"/>`;
-  // 버스 신호
+  const c0 = rowC(0), hi = c0 - 9, lo = c0 + 9;
+  let d = `M${x(0)} ${lo}`;
+  for (let i = 0; i < N; i++) d += ` L${x(i)} ${hi} L${x(i) + colW / 2} ${hi} L${x(i) + colW / 2} ${lo} L${x(i + 1)} ${lo}`;
+  s += `<path class="clk" d="${d}"/>`;
+  if (!compact) s += `<text class="sig" x="12" y="${c0 + 4}">clk</text>`;
+
+  // 버스 신호: 값이 있는 구간은 육각형, 없는 구간은 가운데 선(z)
   timeline.rows.forEach((row, r) => {
-    const yc = rowY(r + 1);
-    svg += `<text class="row-name" x="0" y="${yc + 6}">${esc(row.name)}</text>`;
-    row.segs.forEach((s, k) => {
-      const a = x(toIndex(s.from) - T0), b = x(toIndex(s.to) - T0 + 1);
-      const e = Math.min(7, (b - a) / 4), t = yc - 15, bt = yc + 15;
-      svg += `<polygon class="seg" data-row="${r}" data-seg="${k}" points="${a},${yc} ${a + e},${t} ${b - e},${t} ${b},${yc} ${b - e},${bt} ${a + e},${bt}"/>`;
-      const fits = s.label.length * 14 < b - a - 20;
-      if (fits) svg += `<text class="seg-label" x="${a + 14}" y="${yc + 5}">${esc(s.label)}</text>`;
+    const yc = rowC(r + 1), t = yc - 10, b2 = yc + 10;
+    if (!compact) {
+      s += `<text class="sig" x="12" y="${yc + 4}">${esc(row.signal)}</text>`;
+      s += `<text class="val" id="val-${r}" x="${NAMEW + 12}" y="${yc + 4}"></text>`;
+    }
+    const spans = row.segs.map((g) => [toIndex(g.from) - T0, toIndex(g.to) - T0 + 1]).sort((p, q) => p[0] - q[0]);
+    let cur = 0;
+    spans.forEach(([a, b]) => { if (a > cur) s += `<line class="idle" x1="${x(cur)}" y1="${yc}" x2="${x(a)}" y2="${yc}"/>`; cur = Math.max(cur, b); });
+    if (cur < N) s += `<line class="idle" x1="${x(cur)}" y1="${yc}" x2="${x(N)}" y2="${yc}"/>`;
+    row.segs.forEach((g, k) => {
+      const a = x(toIndex(g.from) - T0), b = x(toIndex(g.to) - T0 + 1), e = Math.min(5, (b - a) / 4);
+      s += `<polygon class="seg" data-row="${r}" data-seg="${k}" points="${a},${yc} ${a + e},${t} ${b - e},${t} ${b},${yc} ${b - e},${b2} ${a + e},${b2}"/>`;
+      if (textW(g.short, 12) < b - a - 14) s += `<text class="seg-label" x="${a + 9}" y="${yc + 4}">${esc(g.short)}</text>`;
     });
   });
-  svg += `<g id="cursor"><line class="cursor" x1="0" x2="0" y1="${TOP - 22}" y2="${rowY(timeline.rows.length) + 20}"/>
-    <rect class="cursor-tag" x="-34" y="0" width="68" height="22"/><text class="cursor-text" x="0" y="16" text-anchor="middle"></text></g>`;
-  $("wave-plot").innerHTML = svg + "</svg>";
+
+  s += `<g id="cursor"><line class="cursor" x1="0" x2="0" y1="${RULER}" y2="${H}"/>
+    <rect class="cursor-tag" x="-30" y="7" width="60" height="18"/><text class="cursor-text" x="0" y="20" text-anchor="middle"></text></g>`;
+  $("wave-plot").innerHTML = s + "</svg>";
 }
 
 function setCursor(i) {
+  const { x, colW, L, W } = G;
   const cx = x(i) + colW / 2;
+  const tagX = Math.min(Math.max(cx, L + 32), W - 32);
   const g = $("cursor");
-  g.setAttribute("transform", `translate(${Math.min(Math.max(cx, L + 34), W - 34)} 0)`);
-  g.querySelector("line").setAttribute("transform", `translate(${cx - Math.min(Math.max(cx, L + 34), W - 34)} 0)`);
-  const { y, m } = fromIndex(T0 + i);
-  g.querySelector("text").textContent = `${y}.${String(m).padStart(2, "0")}`;
+  g.querySelector("line").setAttribute("transform", `translate(${cx} 0)`);
+  g.querySelector("rect").setAttribute("transform", `translate(${tagX} 0)`);
+  const label = g.querySelector("text");
+  label.setAttribute("transform", `translate(${tagX} 0)`);
+  label.textContent = fmtYM(i);
   document.querySelectorAll(".seg").forEach((p) => {
-    const s = timeline.rows[p.dataset.row].segs[p.dataset.seg];
-    p.classList.toggle("on", i >= toIndex(s.from) - T0 && i <= toIndex(s.to) - T0);
+    const sg = timeline.rows[p.dataset.row].segs[p.dataset.seg];
+    p.classList.toggle("on", i >= toIndex(sg.from) - T0 && i <= toIndex(sg.to) - T0);
   });
   const fmt = (ym) => ym.replace("-", ".");
-  const rows = timeline.rows.map((row) => {
-    const hits = segAt(row, i);
-    const v = hits.length ? hits.map((s) => `${fmt(s.from)} ~ ${fmt(s.to)} ${esc(s.label)}`).join("<br>") : "없음";
-    return `<div><dt>${esc(row.name)}</dt><dd>${v}</dd></div>`;
+  timeline.rows.forEach((row, r) => {
+    const v = $(`val-${r}`);
+    if (v) v.textContent = segAt(row, i).map((sg) => sg.short).join(", ") || "z";
   });
-  $("wave-readout").innerHTML = `<div><dt>시점</dt><dd>${y}년 ${m}월</dd></div>` + rows.join("");
+  const { y, m } = fromIndex(T0 + i);
+  $("wave-time").textContent = fmtYM(i);
+  $("wave-readout").innerHTML = timeline.rows.map((row) => {
+    const hits = segAt(row, i);
+    const v = hits.length ? hits.map((sg) => `${fmt(sg.from)} ~ ${fmt(sg.to)} ${esc(sg.label)}`).join("<br>") : "z (값 없음)";
+    return `<div><dt>${esc(row.signal)}</dt><dd>${v}</dd></div>`;
+  }).join("");
   range.setAttribute("aria-valuetext", `${y}년 ${m}월`);
 }
 
@@ -161,6 +202,7 @@ drawWave();
 range.value = nowIdx;
 setCursor(nowIdx);
 range.addEventListener("input", () => setCursor(Number(range.value)));
+matchMedia("(max-width: 699px)").addEventListener("change", () => { drawWave(); setCursor(Number(range.value)); });
 
 // 등장 움직임
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -202,5 +244,28 @@ function onScroll() {
 addEventListener("scroll", onScroll, { passive: true });
 addEventListener("resize", onScroll);
 reveal();
+// 패널이 배경 사진 위로 밀려 올라오는 움직임. 스크롤 위치에 그대로 묶여 있어 되돌리면 다시 내려갑니다.
+const panels = [...document.querySelectorAll(".panel")];
+const backdrop = document.querySelector(".backdrop");
+// 움직임 줄이기 설정이 켜져 있으면 크기 변화 없이 짧게만 올라옵니다.
+const TRAVEL = reduce ? 48 : 140, SHRINK = reduce ? 0 : 0.05;
+let rising = false;
+function rise() {
+  rising = false;
+  const vh = innerHeight;
+  panels.forEach((p) => {
+    const top = p.getBoundingClientRect().top;
+    const k = Math.min(1, Math.max(0, (vh - top) / (vh * 0.6)));
+    const e = 1 - Math.pow(1 - k, 3);
+    p.style.transform = `translate3d(0, ${((1 - e) * TRAVEL).toFixed(1)}px, 0) scale(${(1 - SHRINK + SHRINK * e).toFixed(4)})`;
+  });
+  // 첫 화면을 지나면 배경을 조금 어둡게, 조금 가깝게
+  const depth = Math.min(1, scrollY / vh);
+  backdrop.style.setProperty("--shade", (0.35 + 0.4 * depth).toFixed(3));
+  if (!reduce) backdrop.style.transform = `scale(${(1 + 0.08 * depth).toFixed(4)})`;
+}
+addEventListener("scroll", () => { if (!rising) { rising = true; requestAnimationFrame(rise); } }, { passive: true });
+addEventListener("resize", rise);
+rise();
 // 탭이 숨겨져 있어 그리기가 멈춘 경우에도 내용이 남지 않도록
 setTimeout(() => { if (document.hidden) pending.forEach((el) => el.classList.add("in")); }, 3000);

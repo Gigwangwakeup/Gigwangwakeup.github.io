@@ -20,9 +20,11 @@
 
 ## 그림 출처
 
-첫 화면과 연락처의 칩 다이 사진은 Wikimedia Commons의 CC0 사진을 흑백으로 바꿔 썼습니다.
-
-- Fritzchens Fritz, "Zen2 Matisse Ryzen 7nm Core Die shot", CC0
-- Piotr433, "Hitachi HD61700 microprocessor top metal die shot", CC0
+- 배경 그림 `assets/bg-chip-stack.webp`: 사이트 주인이 골라서 준 칩 이미지입니다. 원본 출처와 사용 조건은 따로 확인이 필요합니다.
+- 연락처의 칩 다이 사진: Piotr433, "Hitachi HD61700 microprocessor top metal die shot", CC0, Wikimedia Commons. 흑백으로 바꿔 썼습니다.
 
 나머지 사진과 그림은 본인 프로젝트에서 직접 찍거나 만든 것입니다.
+
+## 움직임
+
+스크롤하면 내용 패널이 배경 위로 밀려 올라옵니다. 운영체제에서 애니메이션 효과를 꺼 두면(움직임 줄이기) 크기 변화 없이 짧게만 올라옵니다.
