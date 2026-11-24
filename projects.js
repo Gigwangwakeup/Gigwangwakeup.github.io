@@ -2,7 +2,8 @@
 // youtube, linkedin에 주소를 넣으면 영상과 링크가 나타나고, 비워 두면("") 보이지 않습니다.
 
 const STM32 = "https://github.com/Gigwangwakeup/STM32-Clang/tree/main/";
-const HDL = "https://github.com/Gigwangwakeup/AI_system_semiconductor/tree/main/";
+const HDL = "https://github.com/Gigwangwakeup/HDL/tree/main/";
+const AXI = "https://github.com/Gigwangwakeup/Verilog-HDL/tree/main/basys3/AXI/";
 
 const profile = {
   github: "https://github.com/Gigwangwakeup",
@@ -129,6 +130,8 @@ const labs = [
       { title: "dist_temp_humid_sensor", text: "거리와 온습도를 LCD에 표시", tech: "HC-SR04, DHT11, EXTI", github: STM32 + "07.dist_temp_humid_sensor", youtube: "", linkedin: "" },
       { title: "PWM", text: "버튼으로 주파수와 듀티비를 바꾸고 로직 애널라이저로 확인", tech: "타이머 PWM, ARR, CCR", github: STM32 + "08.PWM", youtube: "", linkedin: "" },
       { title: "joystick_count", text: "조이스틱 기울기에 따라 X·Y 카운트 증감", tech: "ADC, DMA, I2C LCD", github: STM32 + "10.joystick_count", youtube: "", linkedin: "" },
+      { title: "elevator_teamproject", text: "2인 팀. 3층 카드 권한 엘리베이터와 Python 모델 검증 GUI", tech: "2-process FSM, 스텝모터, UART 프로토콜", github: STM32 + "11.elevator_teamproject", youtube: "", linkedin: "" },
+      { title: "minicar", text: "2인 팀. BLE 앱 조종과 초음파 자율 주행 RC카", tech: "FreeRTOS, Queue, Mutex, HC-SR04", github: STM32 + "12.minicar", youtube: "", linkedin: "" },
     ],
   },
   {
@@ -137,6 +140,13 @@ const labs = [
       { title: "UART_FIFO_Loopback", text: "FIFO를 설계·검증한 뒤 UART와 연결한 루프백", tech: "FIFO, self-checking TB", github: HDL + "VerilogHDL/UART_FIFO_Loopback", youtube: "", linkedin: "" },
       { title: "Sensor_Smartwatch", text: "시계, 스톱워치, 초음파, 온습도를 하나로 통합", tech: "센서 프로토콜, UART 명령", github: HDL + "VerilogHDL/Sensor_Smartwatch_MiniProject", youtube: "", linkedin: "" },
       { title: "RV32I_SingleCycle", text: "RV32I 싱글사이클 CPU의 datapath와 제어 신호 구현", tech: "SystemVerilog, Harvard 구조", github: HDL + "SystemVerilogHDL/RV32I_SingleCycle", youtube: "", linkedin: "" },
+    ],
+  },
+  {
+    group: "MicroBlaze · AXI",
+    items: [
+      { title: "AXI_GPIO_led_button", text: "커스텀 GPIO IP 5개로 LED 16개 파도타기, 버튼으로 방향 전환", tech: "AXI4-Lite, MicroBlaze, Vitis", github: AXI + "01.Microblaze_AXI_GPIO_led_button", youtube: "https://youtu.be/6P4IyXeRwGo", linkedin: "" },
+      { title: "AXI_GPIO_UART", text: "커스텀 UART IP로 송수신하고 받은 글자를 콘솔에 출력", tech: "AXI4-Lite, UART FSM, MicroBlaze", github: AXI + "02.Microblaze_AXI_GPIO_UART", youtube: "", linkedin: "" },
     ],
   },
 ];
