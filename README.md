@@ -1,8 +1,8 @@
 # Gigwangwakeup.github.io
 
-이기광의 포트폴리오 사이트입니다. 주소는 https://gigwangwakeup.github.io 입니다.
+이기광의 프로젝트를 한 페이지에서 볼 수 있게 모아 둔 소개 사이트입니다. 주소는 https://gigwangwakeup.github.io 입니다.
 
-프레임워크 없이 HTML, CSS, JS로 만들었고 빌드 과정이 없습니다.
+사이트 코드(HTML, CSS, JS)는 AI(Claude)가 만들었습니다. 소개된 프로젝트 내용과 각 저장소의 코드는 제가 진행한 실습과 팀 프로젝트를 바탕으로 합니다. 프레임워크와 빌드 과정은 없습니다.
 
 ## 내용 수정
 
