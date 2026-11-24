@@ -43,7 +43,7 @@
           RTL 프론트엔드 설계와 FPGA 검증
         </p>
         <h1 id="title">
-          <span class="headline-line"><span class="appear appear--mask" style="--d:0.42s">현장에서 2년 7개월, FPGA를 다룬</span></span>
+          <span class="headline-line"><span class="appear appear--mask" style="--d:0.42s"><span class="t-wide">현장에서 2년 7개월, FPGA를 다룬</span><span class="t-narrow">FPGA 현장 2년 7개월,</span></span></span>
           <span class="headline-line"><span class="appear appear--mask" style="--d:0.62s"><em>RTL</em> 설계 엔지니어 이기광</span></span>
         </h1>
         <p class="lede appear appear--soft" style="--d:0.82s">전력설비 진단 장비의 FPGA 로직을 설계하고 검증했습니다. 지금은 RISC-V CPU, UVM 검증, AXI SoC를 다루며 차량용 반도체와 NPU 쪽 RTL 프론트엔드 설계를 준비합니다.</p>
@@ -83,24 +83,10 @@
 
     <section class="panel timing" id="timing" aria-labelledby="timing-title">
       <div class="timing-head" data-reveal>
-        <h2 id="timing-title">타이밍도로 본 이력</h2>
-        <p>회사 경력, 교육과정, 실습 주제를 파형 뷰어처럼 한 시간축에 놓았습니다. 한 주기가 한 달이고, 노란 커서가 지금입니다.</p>
+        <h2 id="timing-title">이력 한눈에 보기</h2>
+        <p>FPGA 연구원으로 일한 2년 7개월 뒤, 교육과정에서 RTL 설계와 검증, 임베디드, SoC 순서로 넓혀 왔습니다.</p>
       </div>
-      <div class="wave" data-reveal data-ui>
-        <div class="wave-plot" id="wave-plot" aria-hidden="true"></div>
-        <label class="wave-cursor">
-          <span>커서</span>
-          <input type="range" id="wave-range" min="0" max="39" value="36">
-          <output id="wave-time">2026.11</output>
-        </label>
-        <dl class="wave-readout" id="wave-readout" aria-live="polite">
-          <div><dt>시점</dt><dd>2026년 11월</dd></div>
-          <div><dt>경력</dt><dd>2023.11 ~ 2026.06 유호전기공업 연구소, FPGA 로직 설계와 검증</dd></div>
-          <div><dt>교육</dt><dd>2026.06 ~ 2027.02 AI 시스템반도체 설계 교육과정</dd></div>
-          <div><dt>HDL</dt><dd>2026.11 ~ 2026.11 MicroBlaze, AXI</dd></div>
-          <div><dt>임베디드</dt><dd>2026.10 ~ 2026.11 STM32, FreeRTOS</dd></div>
-        </dl>
-      </div>
+      <ol class="history" id="history" data-reveal></ol>
     </section>
 
     <section class="panel career" id="career" aria-labelledby="career-title">

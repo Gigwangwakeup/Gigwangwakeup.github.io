@@ -38,27 +38,15 @@ const career = {
   ],
 };
 
-// 타이밍도. 달은 "YYYY-MM", to는 그 달까지 포함합니다.
-const timeline = {
-  start: "2023-11",
-  end: "2027-02",
-  now: "2026-11",
-  rows: [
-    // signal은 파형 뷰어의 신호 이름, short는 값 열과 파형 안에 찍히는 짧은 값입니다.
-    { name: "경력", signal: "career", segs: [{ from: "2023-11", to: "2026-06", label: "유호전기공업 연구소, FPGA 로직 설계와 검증", short: "FPGA 로직 설계·검증" }] },
-    { name: "교육", signal: "education", segs: [{ from: "2026-06", to: "2027-02", label: "AI 시스템반도체 설계 교육과정", short: "AI 시스템반도체 과정" }] },
-    {
-      name: "HDL 실습",
-      signal: "hdl_lab",
-      segs: [
-        { from: "2026-07", to: "2026-08", label: "Verilog RTL", short: "Verilog" },
-        { from: "2026-09", to: "2026-10", label: "SystemVerilog, UVM, RISC-V CPU", short: "SV·UVM·RV32I" },
-        { from: "2026-11", to: "2026-11", label: "MicroBlaze, AXI", short: "AXI" },
-      ],
-    },
-    { name: "임베디드 실습", signal: "embedded_lab", segs: [{ from: "2026-10", to: "2026-11", label: "STM32, FreeRTOS", short: "STM32" }] },
-  ],
-};
+// 이력 타임라인. 왼쪽부터 순서대로 그립니다. now: true인 칸이 지금 하는 일입니다.
+const history = [
+  { when: "2023.11 ~ 2026.06", tag: "경력", title: "유호전기공업 연구소", detail: "FPGA 로직 설계와 검증 2년 7개월. PD 검출, 32채널 확장, 원격 업데이트" },
+  { when: "2026.06 ~ 2027.02", tag: "교육", title: "AI 시스템반도체 설계 교육과정", detail: "RTL 설계부터 검증, 임베디드, SoC까지" },
+  { when: "2026.07 ~ 08", tag: "HDL", title: "Verilog RTL", detail: "UART, FIFO, 센서 스마트워치를 Basys3에서" },
+  { when: "2026.09 ~ 10", tag: "HDL", title: "SystemVerilog, UVM, RISC-V", detail: "FIFO UVM 검증, RV32I 멀티사이클 CPU (4인 팀)" },
+  { when: "2026.10 ~ 11", tag: "임베디드", title: "STM32, FreeRTOS", detail: "스마트워치, 엘리베이터, RC카 (팀 2개)" },
+  { when: "2026.11 ~", tag: "SoC", title: "MicroBlaze, AXI", detail: "AXI4-Lite GPIO, UART IP를 C 드라이버로 제어", now: true },
+];
 
 // 설계와 검증 프로젝트. 그림은 assets 폴더에 둡니다.
 const designWorks = [
