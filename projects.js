@@ -6,9 +6,10 @@ const HDL = "https://github.com/Gigwangwakeup/HDL/tree/main/";
 const AXI = "https://github.com/Gigwangwakeup/Verilog-HDL/tree/main/basys3/AXI/";
 
 const profile = {
+  email: "lmop624@naver.com",
   github: "https://github.com/Gigwangwakeup",
-  linkedin: "",
-  youtube: "",
+  linkedin: "https://www.linkedin.com/in/%EA%B8%B0%EA%B4%91-%EC%9D%B4-538212345/",
+  youtube: "https://www.youtube.com/@gigwangwakeup",
 };
 
 // 크게 보여주는 프로젝트. visual은 영상이 없을 때 대신 보이는 그림입니다.

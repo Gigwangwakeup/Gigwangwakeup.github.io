@@ -82,8 +82,15 @@ function labHtml({ group, items }) {
 
 document.getElementById("works").innerHTML = works.map(workHtml).join("");
 document.getElementById("lab-groups").innerHTML = labs.map(labHtml).join("");
+// 연락처: 이름과 주소를 함께 보여 준다. 주소를 비워 두면 그 줄은 나오지 않는다.
+const shortUrl = (url) => decodeURI(url).replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+const contactRow = (label, href, text) =>
+  href ? `<li><span class="contact-label">${label}</span><a href="${href}" target="_blank" rel="noopener">${text}</a></li>` : "";
 document.getElementById("contact-links").innerHTML =
-  link(profile.github, "GitHub") + link(profile.linkedin, "LinkedIn") + link(profile.youtube, "YouTube");
+  (profile.email ? `<li><span class="contact-label">Email</span><a href="mailto:${profile.email}">${profile.email}</a></li>` : "") +
+  contactRow("GitHub", profile.github, shortUrl(profile.github)) +
+  contactRow("LinkedIn", profile.linkedin, shortUrl(profile.linkedin)) +
+  contactRow("YouTube", profile.youtube, shortUrl(profile.youtube));
 
 document.addEventListener("click", (event) => {
   const button = event.target.closest("[data-video]");

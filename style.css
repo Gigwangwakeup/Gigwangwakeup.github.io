@@ -218,14 +218,18 @@ footer {
   overflow: hidden;
 }
 footer h2 { margin: 0 0 16px; font-size: clamp(1.75rem, 3.2vw, 3rem); letter-spacing: -0.03em; }
-.contact-links { display: flex; flex-wrap: wrap; gap: 8px 32px; font-size: 22px; font-weight: 700; }
+.contact-links { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; font-size: 20px; font-weight: 700; }
+.contact-links li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px; }
+.contact-label { min-width: 6.5em; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; opacity: 0.7; }
+.contact-links a { overflow-wrap: anywhere; }
 .closing-name {
-  margin: clamp(32px, 5vw, 72px) 0 0;
-  font-size: min(30vw, 22rem);
+  margin: clamp(40px, 6vw, 80px) 0 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.05em;
+  line-height: 1;
+  letter-spacing: -0.03em;
 }
+.site-note { margin: 16px 0 0; font-size: 14px; opacity: 0.7; }
 
 @media (max-width: 860px) {
   .hero, .work-inner, .work:nth-child(even) .work-inner { grid-template-columns: minmax(0, 1fr); }
