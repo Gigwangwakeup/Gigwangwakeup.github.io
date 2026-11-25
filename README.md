@@ -25,19 +25,3 @@
 - 연락처의 칩 다이 사진: Piotr433, "Hitachi HD61700 microprocessor top metal die shot", CC0, Wikimedia Commons. 흑백으로 바꿔 썼습니다.
 
 나머지 사진과 그림은 제 프로젝트에서 직접 찍거나 만든 것입니다.
-
-## 내용 고치는 법
-
-내용은 모두 `projects.js`에 있습니다.
-
-| 항목 | 내용 |
-| --- | --- |
-| `profile` | 연락처 주소와 최종 업데이트 날짜(`updated`) |
-| `features`, `interests` | 첫 화면 아래 특징 목록과 관심 분야 |
-| `career` | 경력 표 |
-| `history` | 이력 칸. 기간(`when`), 분류(`tag`), 제목, 설명. 지금 하는 칸에 `now: true` |
-| `designWorks` | 설계와 검증 프로젝트. `youtube`에 주소를 넣으면 영상 버튼이 나옵니다 |
-| `boardWorks` | 보드 프로젝트 |
-| `labs` | 실습 기록 표 |
-
-주소를 비워 두면(`""`) 그 링크는 나오지 않습니다. 새 그림은 `assets` 폴더에 넣습니다.
