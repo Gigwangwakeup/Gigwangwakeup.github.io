@@ -17,7 +17,7 @@ const profile = {
 // 첫 화면의 특징 목록
 const features = [
   "전력설비 부분방전 진단 장비의 FPGA 로직 설계와 검증 2년 7개월",
-  "RV32I 멀티사이클 CPU와 APB 버스, 100MHz에서 WNS +1.676ns (4인 팀)",
+  "RV32I 멀티사이클 CPU와 APB 버스 (4인 팀), 100MHz에서 팀 최종본 WNS +0.171ns, 본인 수정본 +1.676ns",
   "SystemVerilog와 UVM 1.2 테스트벤치, Synopsys VCS와 Verdi",
   "MicroBlaze AXI4-Lite 주변장치, STM32 펌웨어와 FreeRTOS",
 ];
