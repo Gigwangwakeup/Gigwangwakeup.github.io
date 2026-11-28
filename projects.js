@@ -41,7 +41,7 @@ const career = {
 // 이력 타임라인. 왼쪽부터 순서대로 그립니다. now: true인 칸이 지금 하는 일입니다.
 const history = [
   { when: "2023.11 ~ 2026.06", tag: "경력", title: "유호전기공업 연구소", detail: "FPGA 로직 설계와 검증 2년 7개월. PD 검출, 32채널 확장, 원격 업데이트" },
-  { when: "2026.06 ~ 2027.02", tag: "교육", title: "AI 시스템반도체 설계 교육과정", detail: "RTL 설계부터 검증, 임베디드, SoC까지" },
+  { when: "2026.07 ~ 2027.02", tag: "교육", title: "AI 시스템반도체 설계 교육과정", detail: "RTL 설계부터 검증, 임베디드, SoC까지" },
   { when: "2026.07 ~ 08", tag: "HDL", title: "Verilog RTL", detail: "UART, FIFO, 센서 스마트워치를 Basys3에서" },
   { when: "2026.09 ~ 10", tag: "HDL", title: "SystemVerilog, UVM, RISC-V", detail: "FIFO UVM 검증, RV32I 멀티사이클 CPU (4인 팀)" },
   { when: "2026.10 ~ 11", tag: "임베디드", title: "STM32, FreeRTOS", detail: "스마트워치, 엘리베이터, RC카 (팀 2개)" },
@@ -60,7 +60,7 @@ const designWorks = [
       "AI 에이전트로 엣지 케이스를 검증해 결함 8건을 찾아 수정",
     ],
     stats: [["100MHz 타이밍 여유", "WNS +1.676ns"], ["엣지 케이스", "14 / 15 통과"], ["AI 검증 점수", "50에서 81"]],
-    tags: "SystemVerilog, RISC-V, AMBA APB, Vivado, Verilator",
+    tags: "SystemVerilog, RISC-V, AMBA APB, Vivado",
     image: { src: "assets/cpu-sum-waveform.png", width: 1920, height: 900, alt: "누적합 프로그램의 스택 프레임, 어셈블리, 시뮬레이션 파형. 최종 sum = 55가 표시되어 있다." },
     caption: "누적합 프로그램 실행 결과. Dmem의 sum이 55가 된다",
     github: HDL + "SystemVerilogHDL/RV32I_MultiCycle_APB",
