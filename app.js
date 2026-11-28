@@ -1,7 +1,8 @@
 // 사이트 내용은 projects.js에 있고, 이 파일은 그 내용을 화면에 그립니다.
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const link = (href, label) => (href ? `<a href="${href}" target="_blank" rel="noopener">${label}</a>` : "");
+// name을 주면 화면에는 안 보이고 스크린리더에만 읽히는 프로젝트 이름을 붙입니다. ("코드 보기"가 여러 개라 구분용)
+const link = (href, label, name) => (href ? `<a href="${href}" target="_blank" rel="noopener">${label}${name ? `<span class="visually-hidden"> ${esc(name)}</span>` : ""}</a>` : "");
 const youtubeId = (url) => (url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/) || [])[1];
 const shortUrl = (url) => decodeURI(url).replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 const $ = (id) => document.getElementById(id);
@@ -39,7 +40,7 @@ $("design-works").innerHTML = designWorks.map((w) => {
       <ul>${w.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
       ${stats}
       <p class="tags">${esc(w.tags)}</p>
-      <p class="links">${link(w.github, "코드 보기")}${link(w.youtube, "유튜브에서 보기")}</p>
+      <p class="links">${link(w.github, "코드 보기", w.title)}${link(w.youtube, "유튜브에서 보기", w.title)}</p>
     </div>
     <div class="work-media" data-reveal>${mediaHtml(w)}</div>
   </article>`;
@@ -58,7 +59,7 @@ $("board-works").innerHTML = boardWorks.map((b) => `<article class="board" data-
     <p class="team">${esc(b.team)}</p>
     <p class="text">${esc(b.text)}</p>
     <p class="tags">${esc(b.tags)}</p>
-    <p class="links">${link(b.github, "코드 보기")}${link(b.youtube, "유튜브에서 보기")}</p>
+    <p class="links">${link(b.github, "코드 보기", b.title)}${link(b.youtube, "유튜브에서 보기", b.title)}</p>
   </article>`).join("");
 
 // 실습 기록 표
@@ -66,7 +67,7 @@ $("lab-groups").innerHTML = labs.map(({ group, items }) => `<div class="lab-grou
     <h3>${esc(group)}</h3>
     <table class="sheet" data-reveal>
       <thead><tr><th scope="col">이름</th><th scope="col">내용</th><th scope="col">기술</th><th scope="col">링크</th></tr></thead>
-      <tbody>${items.map(([name, text, tech, href, video]) => `<tr><th scope="row">${esc(name)}</th><td>${esc(text)}</td><td>${esc(tech)}</td><td class="row-links">${link(href, "코드")}${video ? link(video, "영상") : ""}</td></tr>`).join("")}</tbody>
+      <tbody>${items.map(([name, text, tech, href, video]) => `<tr><th scope="row">${esc(name)}</th><td>${esc(text)}</td><td>${esc(tech)}</td><td class="row-links">${link(href, "코드", name)}${video ? link(video, "영상", name) : ""}</td></tr>`).join("")}</tbody>
     </table>
   </div>`).join("");
 
@@ -91,6 +92,8 @@ document.addEventListener("click", (event) => {
   frame.allowFullscreen = true;
   frame.className = "video-frame";
   button.replaceWith(frame);
+  frame.focus(); // 버튼이 사라져도 키보드 위치가 맨 위로 튀지 않게
+
 });
 
 // 이력 타임라인: 한 줄에 여섯 칸. 지금 하는 칸에 표시.
@@ -139,22 +142,28 @@ requestAnimationFrame(() => requestAnimationFrame(() => {
 // 휴대폰 메뉴
 const header = document.querySelector(".header");
 const burger = document.querySelector(".burger");
-const setMenu = (open) => {
+// 메뉴가 열려 있는 동안 뒤쪽 본문과 맺음말은 inert로 막아, Tab이 가려진 곳으로 가지 않게 합니다.
+const behindMenu = [document.querySelector("main"), document.querySelector(".close")];
+const isOpen = () => document.body.classList.contains("menu-open");
+const setMenu = (open, { restoreFocus = false } = {}) => {
   document.body.classList.toggle("menu-open", open);
   burger.setAttribute("aria-expanded", String(open));
   burger.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+  behindMenu.forEach((el) => { el.inert = open; });
+  if (open) document.querySelector("#site-nav a").focus();
+  else if (restoreFocus) burger.focus();
 };
-burger.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+burger.addEventListener("click", () => setMenu(!isOpen(), { restoreFocus: true }));
 document.querySelectorAll("#site-nav a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
-document.querySelector(".menu-backdrop").addEventListener("click", () => setMenu(false));
-addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+document.querySelector(".menu-backdrop").addEventListener("click", () => setMenu(false, { restoreFocus: true }));
+addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) setMenu(false, { restoreFocus: true }); });
 matchMedia("(min-width: 901px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
 
 // 패널이 배경 사진 위로 밀려 올라오는 움직임. 스크롤 위치에 그대로 묶여 있어 되돌리면 다시 내려갑니다.
 const panels = [...document.querySelectorAll(".panel")];
 const backdrop = document.querySelector(".backdrop");
-// 움직임 줄이기 설정이 켜져 있으면 크기 변화 없이 짧게만 올라옵니다.
-const TRAVEL = reduce ? 48 : 140, SHRINK = reduce ? 0 : 0.05;
+// 움직임 줄이기 설정이 켜져 있으면 패널은 움직이지 않습니다.
+const TRAVEL = reduce ? 0 : 140, SHRINK = reduce ? 0 : 0.05;
 let rising = false;
 function rise() {
   rising = false;

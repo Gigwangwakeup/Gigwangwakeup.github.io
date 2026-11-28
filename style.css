@@ -339,6 +339,8 @@ body.menu-open .burger span:nth-child(3) { transform: translateY(-6.5px) rotate(
 .work-media img { transition: transform 0.6s var(--ease); }
 .work-media figure:hover img { transform: scale(1.015); }
 .video { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #000; cursor: pointer; border-radius: 8px; overflow: hidden; }
+/* 감싼 figure와 .photo가 overflow: hidden이라 바깥 링은 잘림. 안쪽에 그린다. */
+.video:focus-visible { outline-offset: -4px; }
 .video img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; opacity: 0.85; padding: 0 !important; background: #000 !important; transition: opacity 0.3s, transform 0.6s var(--ease); }
 .video:hover img { opacity: 1; }
 .video span {
@@ -405,7 +407,7 @@ body.menu-open .burger span:nth-child(3) { transform: translateY(-6.5px) rotate(
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .appear, .front h1 em { animation: none !important; opacity: 1; transform: none; filter: none; }
-  .js [data-reveal] > *, .js [data-reveal].solo { transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .js [data-reveal] > *, .js [data-reveal].solo { transform: none; transition: opacity 0.6s ease; }
   .work-media img, .board img, .pill::before, .btn::after { transition: none; }
   .step.now .dot { animation: none; }
 }
@@ -442,7 +444,8 @@ body.menu-open .burger span:nth-child(3) { transform: translateY(-6.5px) rotate(
     padding: max(96px, calc(env(safe-area-inset-top) + 88px)) 22px 32px;
     opacity: 0; visibility: hidden; transition: opacity 0.28s, visibility 0.28s;
   }
-  body.menu-open #site-nav { opacity: 1; visibility: visible; }
+  /* 열 때는 visibility를 바로 켜야 첫 링크로 포커스를 옮길 수 있음 (닫을 때만 0.28s 늦춤) */
+  body.menu-open #site-nav { opacity: 1; visibility: visible; transition: opacity 0.28s, visibility 0s; }
   body.menu-open { overflow: hidden; }
   #site-nav .pill { width: 100%; height: 56px; justify-content: center; font-size: 19px; border-radius: 10px; }
   .front { padding: 84px 20px 0; }
